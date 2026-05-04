@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block title %}السلة — Youcef Shop DZ{% endblock %}
+{% block content %}
+<div class="container" style="margin-top:2rem">
+  <h1 class="section-title">🛒 <span>السلة</span></h1>
+  {% if cart_items %}
+  <div style="display:grid;grid-template-columns:1fr 350px;gap:2rem">
+    <div>
+      {% for item in cart_items %}
+      <div class="card" style="display:flex;gap:1rem;padding:1rem;margin-bottom:1rem;align-items:center">
+        <img src="{{ item.product.image }}" style="width:80px;height:80px;object-fit:cover;border-radius:8px">
+        <div style="flex:1">
+          <p style="font-weight:700">{{ item.product.name }}</p>
+          <p style="color:var(--primary);font-weight:900">{{ item.product.price|int }} دج × {{ item.cart.qty }}</p>
+        </div>
+        <div style="text-align:left">
+          <p style="color:var(--primary);font-weight:900;font-size:1.2rem">{{ item.subtotal|int }} دج</p>
+          <a href="/cart/remove/{{ item.cart.id }}" style="color:#ff4444;text-decoration:none;font-size:.85rem">حذف</a>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    <div class="card" style="padding:1.5rem;height:fit-content">
+      <h3 style="margin-bottom:1rem">ملخص الطلب</h3>
+      <div style="display:flex;justify-content:space-between;margin-bottom:1rem">
+        <span style="color:var(--text-muted)">الإجمالي</span>
+        <span style="color:var(--primary);font-weight:900;font-size:1.3rem">{{ total|int }} دج</span>
+      </div>
+      <a href="/checkout" class="btn btn-primary" style="width:100%;text-align:center">إتمام الطلب ✅</a>
+    </div>
+  </div>
+  {% else %}
+  <div style="text-align:center;padding:4rem">
+    <p style="font-size:3rem">🛒</p>
+    <p style="color:var(--text-muted);margin:1rem 0">السلة فارغة</p>
+    <a href="/shop" class="btn btn-primary">تسوق الآن</a>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

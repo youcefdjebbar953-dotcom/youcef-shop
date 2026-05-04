@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block title %}تسجيل — Youcef Shop DZ{% endblock %}
+{% block content %}
+<div style="max-width:400px;margin:4rem auto;padding:0 1rem">
+  <div class="card" style="padding:2rem">
+    <h2 style="text-align:center;margin-bottom:2rem;font-size:1.5rem">✨ حساب <span style="color:var(--primary)">جديد</span></h2>
+    <form method="POST">
+      <div class="form-group">
+        <label>الاسم الكامل</label>
+        <input name="name" required>
+      </div>
+      <div class="form-group">
+        <label>البريد الإلكتروني</label>
+        <input name="email" type="email" required>
+      </div>
+      <div class="form-group">
+        <label>رقم الهاتف</label>
+        <input name="phone" required>
+      </div>
+      <div class="form-group">
+        <label>كلمة المرور</label>
+        <input name="password" type="password" required>
+      </div>
+      <button type="submit" class="btn btn-primary" style="width:100%">تسجيل</button>
+    </form>
+    <p style="text-align:center;margin-top:1rem;color:var(--text-muted)">عندك حساب؟ <a href="/login" style="color:var(--primary)">دخول</a></p>
+  </div>
+</div>
+{% endblock %}

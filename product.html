@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block title %}{{ product.name }} — Youcef Shop DZ{% endblock %}
+{% block extra_css %}
+<style>
+.product-detail { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start; }
+.product-detail img { width: 100%; border-radius: 12px; }
+.product-info h1 { font-size: 1.8rem; font-weight: 900; margin-bottom: 1rem; }
+.product-price { font-size: 2.5rem; color: var(--primary); font-weight: 900; margin: 1rem 0; }
+.product-desc { color: var(--text-muted); line-height: 1.8; margin-bottom: 2rem; }
+</style>
+{% endblock %}
+{% block content %}
+<div class="container" style="margin-top:2rem">
+  <div class="product-detail">
+    <img src="{{ product.image or 'https://via.placeholder.com/500x400?text=منتج' }}" alt="{{ product.name }}">
+    <div class="product-info">
+      <p style="color:var(--primary);font-weight:700">{{ ['temu','🛍️ تيمو','aliexpress','📦 علي اكسبراس','netflix','🎬 نتفلكس','other','✨ أخرى'][0] }}</p>
+      <h1>{{ product.name }}</h1>
+      <p class="product-price">{{ product.price|int }} دج</p>
+      <p class="product-desc">{{ product.description }}</p>
+      <div style="display:flex;gap:1rem">
+        <a href="/cart/add/{{ product.id }}" class="btn btn-primary">🛒 أضف للسلة</a>
+        <a href="/shop" class="btn btn-outline">رجوع للمتجر</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

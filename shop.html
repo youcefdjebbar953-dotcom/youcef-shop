@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% block title %}المتجر — Youcef Shop DZ{% endblock %}
+{% block extra_css %}
+<style>
+.shop-header { background: var(--dark2); padding: 2rem; border-bottom: 1px solid #333; }
+.search-bar { display: flex; gap: 1rem; max-width: 600px; }
+.search-bar input { flex: 1; padding: .8rem 1rem; background: var(--dark3); border: 1px solid #444; border-radius: 8px; color: var(--text); font-family: 'Cairo', sans-serif; font-size: 1rem; }
+.filter-cats { display: flex; gap: .5rem; flex-wrap: wrap; margin-top: 1rem; }
+.filter-btn { padding: .4rem 1rem; border-radius: 20px; border: 1px solid #444; background: transparent; color: var(--text-muted); cursor: pointer; font-family: 'Cairo', sans-serif; text-decoration: none; transition: all .2s; }
+.filter-btn.active, .filter-btn:hover { background: var(--primary); border-color: var(--primary); color: white; }
+.products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1.5rem; }
+.product-card img { width: 100%; height: 200px; object-fit: cover; }
+.product-card .info { padding: 1rem; }
+.product-card .price { color: var(--primary); font-size: 1.3rem; font-weight: 900; margin: .5rem 0; }
+.cat-badge { background: #FF6B0022; color: var(--primary); padding: .2rem .6rem; border-radius: 20px; font-size: .8rem; font-weight: 600; }
+</style>
+{% endblock %}
+{% block content %}
+<div class="shop-header">
+  <form class="search-bar" method="GET">
+    <input name="q" value="{{ q }}" placeholder="ابحث عن منتج...">
+    {% if current_cat %}<input type="hidden" name="cat" value="{{ current_cat }}">{% endif %}
+    <button type="submit" class="btn btn-primary">بحث</button>
+  </form>
+  <div class="filter-cats">
+    <a href="/shop" class="filter-btn {{ 'active' if not current_cat }}">الكل</a>
+    {% for key, val in categories.items() %}
+    <a href="/shop?cat={{ key }}" class="filter-btn {{ 'active' if current_cat == key }}">{{ val }}</a>
+    {% endfor %}
+  </div>
+</div>
+
+<div class="container">
+  {% if products %}
+  <div class="products-grid">
+    {% for p in products %}
+    <div class="card product-card">
+      <img src="{{ p.image or 'https://via.placeholder.com/300x200?text=منتج' }}" alt="{{ p.name }}">
+      <div class="info">
+        <span class="cat-badge">{{ categories.get(p.category, p.category) }}</span>
+        <p style="font-weight:700;margin-top:.5rem">{{ p.name }}</p>
+        <p class="price">{{ p.price|int }} دج</p>
+        <div style="display:flex;gap:.5rem">
+          <a href="/product/{{ p.id }}" class="btn btn-outline btn-sm">التفاصيل</a>
+          <a href="/cart/add/{{ p.id }}" class="btn btn-primary btn-sm">🛒 أضف للسلة</a>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+  <p style="text-align:center;color:var(--text-muted);padding:3rem">لا توجد منتجات في هذه الفئة</p>
+  {% endif %}
+</div>
+{% endblock %}

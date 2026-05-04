@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{% block title %}Youcef Shop DZ{% endblock %}</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary: #FF6B00;
+  --primary-dark: #e05e00;
+  --dark: #0f0f0f;
+  --dark2: #1a1a1a;
+  --dark3: #252525;
+  --text: #f0f0f0;
+  --text-muted: #999;
+  --success: #00c851;
+  --error: #ff4444;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Cairo', sans-serif; background: var(--dark); color: var(--text); min-height: 100vh; }
+
+/* NAV */
+nav { background: var(--dark2); border-bottom: 2px solid var(--primary); padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; height: 65px; position: sticky; top: 0; z-index: 100; }
+.logo { font-size: 1.5rem; font-weight: 900; color: var(--primary); text-decoration: none; }
+.logo span { color: var(--text); }
+.nav-links { display: flex; gap: 1.5rem; align-items: center; }
+.nav-links a { color: var(--text-muted); text-decoration: none; font-weight: 600; transition: color .2s; }
+.nav-links a:hover { color: var(--primary); }
+.cart-btn { background: var(--primary); color: white; padding: .4rem .9rem; border-radius: 20px; font-weight: 700; text-decoration: none; }
+.cart-badge { background: white; color: var(--primary); border-radius: 50%; padding: 0 5px; font-size: .75rem; margin-right: 4px; }
+
+/* FLASH */
+.flash { padding: .8rem 1.5rem; margin: 1rem 2rem; border-radius: 8px; font-weight: 600; }
+.flash.success { background: #00c85122; border: 1px solid var(--success); color: var(--success); }
+.flash.error { background: #ff444422; border: 1px solid var(--error); color: var(--error); }
+
+/* BUTTONS */
+.btn { display: inline-block; padding: .7rem 1.5rem; border-radius: 8px; font-family: 'Cairo', sans-serif; font-weight: 700; font-size: 1rem; cursor: pointer; border: none; text-decoration: none; transition: all .2s; }
+.btn-primary { background: var(--primary); color: white; }
+.btn-primary:hover { background: var(--primary-dark); transform: translateY(-2px); }
+.btn-outline { background: transparent; color: var(--primary); border: 2px solid var(--primary); }
+.btn-outline:hover { background: var(--primary); color: white; }
+.btn-sm { padding: .4rem .9rem; font-size: .85rem; }
+
+/* CARDS */
+.card { background: var(--dark2); border-radius: 12px; overflow: hidden; border: 1px solid #333; transition: transform .2s, border-color .2s; }
+.card:hover { transform: translateY(-4px); border-color: var(--primary); }
+
+/* CONTAINER */
+.container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
+.section-title { font-size: 1.8rem; font-weight: 900; margin-bottom: 1.5rem; }
+.section-title span { color: var(--primary); }
+
+/* FOOTER */
+footer { background: var(--dark2); border-top: 2px solid var(--primary); padding: 2rem; text-align: center; color: var(--text-muted); margin-top: 4rem; }
+footer a { color: var(--primary); text-decoration: none; }
+
+/* FORMS */
+.form-group { margin-bottom: 1.2rem; }
+.form-group label { display: block; margin-bottom: .4rem; font-weight: 600; color: var(--text-muted); }
+.form-group input, .form-group select, .form-group textarea {
+  width: 100%; padding: .8rem 1rem; background: var(--dark3); border: 1px solid #444;
+  border-radius: 8px; color: var(--text); font-family: 'Cairo', sans-serif; font-size: 1rem;
+}
+.form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+  outline: none; border-color: var(--primary);
+}
+</style>
+{% block extra_css %}{% endblock %}
+</head>
+<body>
+<nav>
+  <a href="/" class="logo">Youcef <span>Shop DZ</span></a>
+  <div class="nav-links">
+    <a href="/">الرئيسية</a>
+    <a href="/shop">المتجر</a>
+    {% if user %}
+      <a href="/orders">طلباتي</a>
+      {% if user.is_admin %}<a href="/admin" style="color:var(--primary)">لوحة الأدمن</a>{% endif %}
+      <a href="/logout">خروج</a>
+      <a href="/cart" class="cart-btn"><span class="cart-badge">{{ cart_count }}</span>🛒</a>
+    {% else %}
+      <a href="/login">دخول</a>
+      <a href="/register" class="btn btn-primary btn-sm">تسجيل</a>
+    {% endif %}
+  </div>
+</nav>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% for cat, msg in messages %}
+    <div class="flash {{ cat }}">{{ msg }}</div>
+  {% endfor %}
+{% endwith %}
+
+{% block content %}{% endblock %}
+
+<footer>
+  <p>© 2026 Youcef Shop DZ — جميع الحقوق محفوظة</p>
+  <p style="margin-top:.5rem">
+    <a href="https://t.me/youcef2333">تلغرام</a> |
+    <a href="https://wa.me/213560560835">واتساب</a> |
+    <a href="https://instagram.com/youcef_shop_dz">انستغرام</a>
+  </p>
+</footer>
+</body>
+</html>

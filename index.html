@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% block title %}Youcef Shop DZ — متجرك الأول{% endblock %}
+{% block extra_css %}
+<style>
+.hero { background: linear-gradient(135deg, #1a1a1a 0%, #0f0f0f 50%, #1a0a00 100%); padding: 5rem 2rem; text-align: center; position: relative; overflow: hidden; }
+.hero::before { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle, #FF6B0015 0%, transparent 60%); }
+.hero h1 { font-size: 3rem; font-weight: 900; margin-bottom: 1rem; position: relative; }
+.hero h1 span { color: var(--primary); }
+.hero p { font-size: 1.2rem; color: var(--text-muted); margin-bottom: 2rem; }
+.hero-btns { display: flex; gap: 1rem; justify-content: center; }
+.categories { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-bottom: 3rem; }
+.cat-card { background: var(--dark2); border: 1px solid #333; border-radius: 12px; padding: 1.5rem; text-align: center; text-decoration: none; color: var(--text); transition: all .2s; cursor: pointer; }
+.cat-card:hover { border-color: var(--primary); background: #FF6B0011; transform: translateY(-3px); }
+.cat-card .emoji { font-size: 2.5rem; display: block; margin-bottom: .5rem; }
+.cat-card span { font-weight: 700; }
+.products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1.5rem; }
+.product-card img { width: 100%; height: 200px; object-fit: cover; }
+.product-card .info { padding: 1rem; }
+.product-card .name { font-weight: 700; margin-bottom: .3rem; }
+.product-card .price { color: var(--primary); font-size: 1.3rem; font-weight: 900; margin-bottom: .8rem; }
+.product-card .cat-badge { background: #FF6B0022; color: var(--primary); padding: .2rem .6rem; border-radius: 20px; font-size: .8rem; font-weight: 600; }
+.whatsapp-float { position: fixed; bottom: 2rem; left: 2rem; background: #25D366; color: white; width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; text-decoration: none; box-shadow: 0 4px 15px #25D36666; z-index: 99; transition: transform .2s; }
+.whatsapp-float:hover { transform: scale(1.1); }
+</style>
+{% endblock %}
+{% block content %}
+<div class="hero">
+  <h1>متجرك الأول <span>في الجزائر</span> 🛍️</h1>
+  <p>نجيبلك أي منتج من تيمو وعلي اكسبراس + حسابات نتفلكس بأفضل الأسعار</p>
+  <div class="hero-btns">
+    <a href="/shop" class="btn btn-primary">تسوق الآن</a>
+    <a href="https://t.me/youcef_shop_bot" class="btn btn-outline">البوت على تلغرام</a>
+  </div>
+</div>
+
+<div class="container">
+  <h2 class="section-title">تسوق حسب <span>الفئة</span></h2>
+  <div class="categories">
+    {% for key, val in categories.items() %}
+    <a href="/shop?cat={{ key }}" class="cat-card">
+      <span class="emoji">{{ val.split()[0] }}</span>
+      <span>{{ val.split(' ', 1)[1] if ' ' in val else val }}</span>
+    </a>
+    {% endfor %}
+  </div>
+
+  <h2 class="section-title">أحدث <span>المنتجات</span></h2>
+  <div class="products-grid">
+    {% for p in products %}
+    <div class="card product-card">
+      <img src="{{ p.image or 'https://via.placeholder.com/300x200?text=منتج' }}" alt="{{ p.name }}">
+      <div class="info">
+        <span class="cat-badge">{{ categories.get(p.category, p.category) }}</span>
+        <p class="name" style="margin-top:.5rem">{{ p.name }}</p>
+        <p class="price">{{ p.price|int }} دج</p>
+        <a href="/product/{{ p.id }}" class="btn btn-primary" style="width:100%;text-align:center">عرض المنتج</a>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+<a href="https://wa.me/213560560835" class="whatsapp-float" target="_blank">💬</a>
+{% endblock %}
